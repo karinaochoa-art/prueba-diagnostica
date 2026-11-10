@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluación diagnóstica · UVP Universidad del Valle de Puebla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --morado-900:#2A0E55; --morado-700:#4A1B8F; --morado-500:#7B3FD1; --lavanda:#F2EBFC; --lavanda-2:#E4D6F8;
+  --naranja:#FF7A1A; --naranja-claro:#FFE6D1; --naranja-osc:#B84700;
+  --tinta:#1D1233; --gris:#5E5675; --ok:#1B7F4B; --mal:#B3261E; --fondo:#FBF8FF;
+  --display:"Bricolage Grotesque","Trebuchet MS",sans-serif; --texto:"Figtree","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:400 17px/1.6 var(--texto)}
+:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+.top{background:#fff;padding:12px 24px;display:flex;align-items:center;gap:16px;border-bottom:5px solid var(--naranja);box-shadow:0 5px 0 var(--morado-700)}
+.top img{height:54px;width:auto;display:block}
+.top .tag{margin-left:auto;font:600 14px var(--texto);color:var(--morado-700);text-align:right}
+main{max-width:880px;margin:0 auto;padding:0 20px 80px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;padding:44px 0 30px}
+.hero h1{font:800 clamp(34px,6vw,56px)/1.02 var(--display);color:var(--morado-700);margin:0 0 16px;letter-spacing:-1px}
+.hero p{margin:0;color:var(--gris);max-width:46ch}
+.bolsa{position:relative;aspect-ratio:1;max-width:330px;width:100%;justify-self:center}
+.bolsa .aro{position:absolute;inset:6% 6% 6% 6%;border-radius:50%;background:var(--lavanda);border:3px solid var(--morado-500)}
+.chip{position:absolute;padding:5px 12px;border-radius:99px;font:600 14px var(--texto);white-space:nowrap}
+.chip.d{background:var(--morado-700);color:#fff}
+.chip.f{background:transparent;color:var(--naranja-osc);border:2px dashed var(--naranja)}
+.bolsa .rot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;font:700 15px/1.2 var(--display);color:var(--morado-900);width:60%}
+.bolsa .rot span{display:block;font:500 12px var(--texto);color:var(--gris)}
+.pistas{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:6px 0 34px}
+.pista{padding:16px 18px;border-left:6px solid var(--naranja);background:#fff}
+.pista.n{border-left-color:var(--morado-500)}
+.pista h3{margin:0 0 4px;font:700 17px var(--display)}
+.pista p{margin:0;font-size:15px;color:var(--gris)}
+.panel{background:#fff;border:2px solid var(--morado-700);border-radius:18px;padding:28px}
+h2{font:800 26px/1.15 var(--display);margin:0 0 6px;color:var(--morado-900)}
+.sub{margin:0 0 22px;color:var(--gris);font-size:15px}
+label.campo{display:block;font-weight:600;margin:16px 0 6px}
+input[type=text],textarea{width:100%;padding:13px 14px;border:2px solid var(--lavanda-2);border-radius:10px;font:inherit;background:#fff;color:var(--tinta)}
+input[type=text]:focus,textarea:focus{border-color:var(--morado-500);outline:none;box-shadow:0 0 0 4px var(--lavanda)}
+.ayuda{font-size:14px;color:var(--gris);margin-top:4px}
+.err{color:var(--mal);font-size:14px;font-weight:600;margin-top:6px;min-height:1px}
+.btn{display:inline-block;margin-top:22px;padding:14px 26px;border:0;border-radius:12px;background:var(--naranja);color:var(--morado-900);font:700 17px var(--display);cursor:pointer;box-shadow:0 4px 0 var(--naranja-osc);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translateY(1px);box-shadow:0 3px 0 var(--naranja-osc)}
+.btn:active{transform:translateY(4px);box-shadow:none}
+.btn[disabled]{opacity:.6;cursor:wait}
+.btn.sec{background:var(--lavanda);box-shadow:0 4px 0 var(--lavanda-2);color:var(--morado-700)}
+.quien{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:15px;color:var(--gris)}
+.quien b{color:var(--morado-700)}
+.barra{height:8px;background:var(--lavanda);border-radius:9px;overflow:hidden;margin:0 0 26px}
+.barra i{display:block;height:100%;width:0;background:var(--naranja);transition:width .25s}
+.preg{padding:26px 0;border-top:2px solid var(--lavanda)}
+.preg:first-of-type{border-top:0;padding-top:4px}
+.preg h3{font:700 19px/1.35 var(--display);margin:0 0 14px;display:flex;gap:12px}
+.preg h3 em{flex:none;width:32px;height:32px;border-radius:50%;background:var(--morado-700);color:#fff;font:700 15px/32px var(--display);text-align:center;font-style:normal}
+.preg .ctx{margin:-4px 0 14px 44px;color:var(--gris);font-size:15px}
+.ops{display:grid;gap:9px;margin-left:44px}
+.op{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:2px solid var(--lavanda-2);border-radius:12px;cursor:pointer;background:#fff}
+.op:hover{border-color:var(--morado-500)}
+.op input{margin-top:5px;accent-color:var(--morado-700);width:18px;height:18px;flex:none}
+.op:has(input:checked){background:var(--naranja-claro);border-color:var(--naranja)}
+.fila{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:10px 14px;border:2px solid var(--lavanda-2);border-radius:12px;background:#fff}
+.fila .sn{display:flex;gap:8px}
+.fila .sn label{padding:6px 14px;border:2px solid var(--lavanda-2);border-radius:99px;cursor:pointer;font-weight:600;font-size:15px}
+.fila .sn label:has(input:checked){background:var(--morado-700);border-color:var(--morado-700);color:#fff}
+.fila .sn input{position:absolute;opacity:0;pointer-events:none}
+.fila .sn label:has(input:focus-visible){outline:3px solid var(--naranja)}
+textarea{margin-left:44px;width:calc(100% - 44px);min-height:96px;resize:vertical}
+.venn{margin:0 0 14px 44px;max-width:360px}
+.res{display:none}
+.nota{font-family:var(--display);font-weight:800;font-size:56px;line-height:1;color:var(--morado-700)}
+.nota span{color:var(--naranja);font-size:30px}
+.rev{margin:12px 0 0 44px;padding:12px 14px;border-radius:10px;font-size:15px}
+.rev.ok{background:#E3F5EA;color:#0F4F2D}.rev.mal{background:#FDE7E5;color:#7A1912}
+.aviso{margin-top:16px;padding:12px 14px;background:var(--naranja-claro);border-left:5px solid var(--naranja);font-size:15px;display:none}
+.intro{padding:44px 0 26px}.intro h1{font:800 clamp(34px,6vw,54px)/1.02 var(--display);color:var(--morado-700);margin:0 0 14px;letter-spacing:-1px}.intro p{margin:0;color:var(--gris);max-width:52ch}
+.reglas{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px}.reglas li{padding:12px 16px;background:var(--lavanda);border-left:6px solid var(--morado-500);font-size:16px}.reglas li:nth-child(even){border-left-color:var(--naranja);background:var(--naranja-claro)}
+h3.mini{font:700 19px var(--display);color:var(--morado-900);margin:28px 0 0}
+footer{text-align:center;color:var(--gris);font-size:14px;padding:30px 20px}
+@media(max-width:720px){.hero{grid-template-columns:1fr;padding-top:28px}.pistas{grid-template-columns:1fr}.ops,.rev,.venn,.preg .ctx{margin-left:0}textarea{margin-left:0;width:100%}.panel{padding:20px}.fila{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAa8AAACDCAYAAAA6cpT4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAF/mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDozMzZhNjU5Yi0xNjI1LTQ4MGYtOWNjMy01MGEyODllZGRjZGIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MTEzNTQxNzBEODE1MTFFOUEwMkU5N0M3Qjk1RDNBMDIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NWM1MGJkYzktYzk4Zi00NTM2LWJhMzEtOTAwNWNmYjJkOTRlIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE5IChNYWNpbnRvc2gp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" alt="UVP Universidad del Valle de Puebla" width="431" height="131">
+  <span class="tag">Evaluación diagnóstica</span>
+</header>
+
+<main>
+
+
+  <section class="intro">
+    <h1>Evaluación diagnóstica</h1>
+    <p>Responde con calma. Sirve para saber desde dónde empezamos y no afecta tu calificación del curso. Primero, ingresa tus datos.</p>
+  </section>
+
+  <!-- PASO 1: acceso -->
+  <section class="panel" id="acceso">
+    <h2>Antes de empezar</h2>
+    <p class="sub">Escribe tus datos tal como aparecen en tu lista.</p>
+    <form id="formAcceso" novalidate>
+      <label class="campo" for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" autocomplete="name" placeholder="Ana María López Pérez">
+      <div class="err" id="eNombre"></div>
+      <label class="campo" for="matricula">Matrícula</label>
+      <input type="text" id="matricula" autocomplete="off" maxlength="7" placeholder="MN59062">
+      <div class="ayuda">Dos letras y cinco números, por ejemplo MN59062.</div>
+      <div class="err" id="eMat"></div>
+      <button class="btn" type="submit">Comenzar la prueba</button>
+    </form>
+  </section>
+
+  <!-- PASO 2: indicaciones -->
+  <section class="panel" id="indicaciones" hidden>
+    <div class="quien"><span>Hola, <b id="iNombre"></b> · <b id="iMat"></b></span></div>
+    <div class="hero" style="padding:14px 0 6px">
+      <div>
+        <h2 style="font-size:clamp(28px,5vw,40px);color:var(--morado-700)">Un conjunto es una bolsa con reglas claras</h2>
+        <p class="sub" style="margin:10px 0 0">Antes de usar símbolos, veremos cómo agrupas las cosas de todos los días. La clave: para que algo sea un conjunto, debes poder decir con total certeza si un objeto pertenece a él o no.</p>
+      </div>
+      <div class="bolsa" role="img" aria-label="Un círculo con elementos dentro y otros fuera">
+      <div class="aro"></div>
+      <div class="rot">Meses del año<span>¿Está dentro o fuera?</span></div>
+      <span class="chip d" style="left:20%;top:20%">Enero</span>
+      <span class="chip d" style="left:48%;top:30%">Julio</span>
+      <span class="chip d" style="left:24%;top:68%">Octubre</span>
+      <span class="chip d" style="left:52%;top:62%">Mayo</span>
+      <span class="chip f" style="left:0;top:2%">Lunes</span>
+      <span class="chip f" style="right:0;top:8%">Primavera</span>
+      <span class="chip f" style="right:0;bottom:4%">Los meses bonitos</span>
+    </div>
+    </div>
+  <div class="pistas" aria-label="Ejemplos">
+    <div class="pista"><h3>Sí es conjunto</h3><p>“Los meses del año” o “las cartas de una baraja”. Puedes decir con certeza si algo pertenece o no.</p></div>
+    <div class="pista n"><h3>No es conjunto</h3><p>“Las personas altas”. ¿Quién cuenta como alta? Depende de quién opine.</p></div>
+  </div>
+    <h3 class="mini">Cómo funciona la prueba</h3>
+    <ul class="reglas">
+      <li>Son <b>7 preguntas</b>: 5 de opción múltiple, 1 de clasificar colecciones (Sí es conjunto / No es conjunto) y 1 donde escribes tu propio ejemplo.</li>
+      <li>En cada pregunta de opción múltiple elige <b>una sola respuesta</b>. No se descuentan puntos por errar.</li>
+      <li>Puedes cambiar tus respuestas antes de enviar. Si no estás seguro, elige lo que te parezca más lógico.</li>
+      <li>Responde por tu cuenta: queremos ver lo que ya sabes.</li>
+      <li>No cierres la página hasta ver el mensaje <b>“Respuestas enviadas”</b>.</li>
+    </ul>
+    <button class="btn" id="btnIniciar" type="button">Comenzar la prueba</button>
+  </section>
+
+  <!-- PASO 3: preguntas -->
+  <section class="panel" id="prueba" hidden>
+    <div class="quien"><span>Alumno: <b id="quienNombre"></b> · <b id="quienMat"></b></span><span id="contador">0 de 7 respondidas</span></div>
+    <div class="barra"><i id="progreso"></i></div>
+    <form id="formPrueba" novalidate></form>
+    <div class="err" id="ePrueba"></div>
+    <button class="btn" id="btnEnviar" type="button">Enviar mis respuestas</button>
+    <div class="aviso" id="aviso"></div>
+  </section>
+
+  <!-- PASO 3: resultado -->
+  <section class="panel res" id="resultado">
+    <h2>Respuestas enviadas</h2>
+    <p class="sub">Gracias, <b id="rNombre"></b>. Tu profesor ya recibió tus respuestas.</p>
+    <div class="nota"><span id="rAciertos">0</span><span> / 6 aciertos</span></div>
+    <p class="sub" style="margin-top:10px">Revisa qué idea te quedó clara y cuál conviene reforzar.</p>
+    <div id="revision"></div>
+  </section>
+</main>
+<footer>UVP · Universidad del Valle de Puebla</footer>
+
+<script>
+/* ============ CONFIGURACIÓN ============ */
+// Pega aquí la URL de tu implementación de Apps Script (termina en /exec)
+const ENDPOINT = "PEGA_AQUI_LA_URL_DE_APPS_SCRIPT";
+
+/* ============ PREGUNTAS ============ */
+const VENN = `<svg class="venn" viewBox="0 0 360 190" role="img" aria-label="Dos círculos que se cruzan. Izquierda: 1, 2, 3. Derecha: 3, 4, 5. El 3 está en la zona común.">
+<circle cx="135" cy="95" r="80" fill="#7B3FD1" fill-opacity=".25" stroke="#4A1B8F" stroke-width="3"/>
+<circle cx="225" cy="95" r="80" fill="#FF7A1A" fill-opacity=".28" stroke="#B84700" stroke-width="3"/>
+<g font-family="Figtree,sans-serif" font-size="22" font-weight="600" fill="#1D1233" text-anchor="middle">
+<text x="95" y="86">1</text><text x="95" y="118">2</text><text x="180" y="102">3</text><text x="265" y="86">4</text><text x="265" y="118">5</text></g></svg>`;
+
+const P = [
+ {id:"p1", tipo:"mc", t:"De las siguientes colecciones, ¿cuál permite saber con absoluta certeza si un objeto pertenece o no a ella?",
+  ops:{a:"Los libros más aburridos de la biblioteca.",b:"Los números impares menores que 20.",c:"Las canciones más bonitas de este año.",d:"Las personas altas de tu salón."},
+  ok:"b", why:"Un número es impar y menor que 20, o no lo es. En las otras, “aburrido”, “bonita” y “alta” dependen de la opinión de cada quien."},
+ {id:"p2", tipo:"sn", t:"Marca cuáles de estas colecciones sí forman un conjunto bien definido.",
+  filas:[["Los meses del año","si"],["Las cartas de una baraja","si"],["Las personas altas","no"],["Las comidas más ricas","no"]],
+  why:"Son conjuntos los meses del año y las cartas de una baraja: su pertenencia es clara. “Altas” y “más ricas” son juicios subjetivos."},
+ {id:"p3", tipo:"mc", t:"¿Por qué “las personas altas” no es un conjunto?",
+  ops:{a:"Porque hay muy pocas personas altas.",b:"Porque “alta” no tiene un criterio claro: no siempre podemos decir con certeza quién pertenece.",c:"Porque las personas no se pueden agrupar.",d:"Porque la estatura de las personas cambia con los años."},
+  ok:"b", why:"Un conjunto necesita un criterio de selección preciso. Sin él, dos personas pueden discrepar sobre quién está dentro."},
+ {id:"p4", tipo:"mc", t:"En una escuela, el grupo A son los alumnos que juegan fútbol y el grupo B los que juegan básquetbol. Si te dicen que Carlos está en “A ∩ B” (la intersección), ¿qué deportes juega Carlos?",
+  ops:{a:"Solo fútbol.",b:"Solo básquetbol.",c:"Fútbol o básquetbol (cualquiera de los dos).",d:"Ambos deportes (fútbol y básquetbol al mismo tiempo)."},
+  ok:"d", why:"La intersección reúne a quienes están en A y también en B, es decir, quienes juegan los dos deportes."},
+ {id:"p5", tipo:"mc", t:"Observa las parejas de grupos. ¿En cuál el Grupo 1 está completamente incluido dentro del Grupo 2?",
+  ops:{a:"Grupo 1: Perros / Grupo 2: Gatos.",b:"Grupo 1: Países de América / Grupo 2: Ciudades de México.",c:"Grupo 1: Teléfonos celulares / Grupo 2: Dispositivos electrónicos.",d:"Grupo 1: Números pares / Grupo 2: Números impares."},
+  ok:"c", why:"Todo teléfono celular es un dispositivo electrónico. En las demás parejas hay grupos separados o el orden está invertido."},
+ {id:"p6", tipo:"mc", t:"Imagina dos círculos que se cruzan. El de la izquierda tiene {1, 2, 3} y el de la derecha {3, 4, 5}. El número 3 está en la zona donde los círculos se enciman. ¿Qué significa esa zona?",
+  fig:VENN,
+  ops:{a:"Elementos que están solo en el círculo izquierdo.",b:"Elementos que están solo en el círculo derecho.",c:"Elementos que pertenecen a los dos círculos al mismo tiempo.",d:"Elementos que no pertenecen a ninguno de los dos."},
+  ok:"c", why:"La zona de encima es lo que comparten ambos conjuntos: el 3 está en los dos."},
+ {id:"p7", tipo:"abierta", t:"Piensa en tu vida diaria y escribe un ejemplo de conjunto. Indica cuál es su criterio de selección.",
+  ctx:"Por ejemplo: “las materias que cursas este semestre”. No se califica.", why:""}
+];
+
+/* ============ ESTADO ============ */
+const $ = s => document.querySelector(s);
+const estado = {nombre:"", matricula:"", inicio:0, id:""};
+
+/* ============ ACCESO ============ */
+$("#formAcceso").addEventListener("submit", e=>{
+  e.preventDefault();
+  const nombre = $("#nombre").value.trim().replace(/\s+/g," ");
+  const mat = $("#matricula").value.trim().toUpperCase();
+  $("#eNombre").textContent = nombre.split(" ").length < 2 || nombre.length < 5 ? "Escribe tu nombre y al menos un apellido." : "";
+  $("#eMat").textContent = /^[A-Z]{2}\d{5}$/.test(mat) ? "" : "La matrícula son dos letras y cinco números, como MN59062.";
+  if($("#eNombre").textContent || $("#eMat").textContent) return;
+  Object.assign(estado,{nombre,matricula:mat,id:(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random().toString(16).slice(2))});
+  $("#quienNombre").textContent = nombre; $("#quienMat").textContent = mat;
+  $("#iNombre").textContent = nombre.split(" ")[0]; $("#iMat").textContent = mat;
+  $("#acceso").hidden = true; $(".intro").hidden = true; $("#indicaciones").hidden = false;
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+$("#btnIniciar").addEventListener("click",()=>{
+  estado.inicio = Date.now();
+  $("#indicaciones").hidden = true; $("#prueba").hidden = false;
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ============ RENDER ============ */
+function pintar(){
+  $("#formPrueba").innerHTML = P.map((p,i)=>{
+    let cuerpo="";
+    if(p.tipo==="mc") cuerpo = `<div class="ops" role="radiogroup">${Object.entries(p.ops).map(([k,v])=>`<label class="op"><input type="radio" name="${p.id}" value="${k}"><span><b>${k})</b> ${v}</span></label>`).join("")}</div>`;
+    if(p.tipo==="sn") cuerpo = `<div class="ops">${p.filas.map((f,j)=>`<div class="fila"><span>${f[0]}</span><div class="sn"><label><input type="radio" name="${p.id}_${j}" value="si">Sí es conjunto</label><label><input type="radio" name="${p.id}_${j}" value="no">No es conjunto</label></div></div>`).join("")}</div>`;
+    if(p.tipo==="abierta") cuerpo = `<textarea name="${p.id}" aria-label="Tu ejemplo de conjunto y su criterio" placeholder="Mi conjunto es… y un objeto pertenece si…"></textarea>`;
+    return `<fieldset style="border:0;padding:0;margin:0" class="preg" id="b_${p.id}"><legend style="padding:0;width:100%"><h3><em>${i+1}</em><span>${p.t}</span></h3></legend>${p.ctx?`<p class="ctx">${p.ctx}</p>`:""}${p.fig||""}${cuerpo}</fieldset>`;
+  }).join("");
+}
+pintar();
+
+function leer(){
+  const r = {};
+  P.forEach(p=>{
+    if(p.tipo==="mc"){ const c=document.querySelector(`input[name="${p.id}"]:checked`); r[p.id]=c?c.value:""; }
+    if(p.tipo==="sn"){ r[p.id]=p.filas.map((_,j)=>{const c=document.querySelector(`input[name="${p.id}_${j}"]:checked`);return c?c.value:""}); }
+    if(p.tipo==="abierta"){ r[p.id]=document.querySelector(`textarea[name="${p.id}"]`).value.trim(); }
+  });
+  return r;
+}
+const completa = (p,v)=> p.tipo==="sn" ? v.every(Boolean) : p.tipo==="abierta" ? v.length>=8 : !!v;
+function avance(){
+  const r=leer(); const n=P.filter(p=>completa(p,r[p.id])).length;
+  $("#contador").textContent = `${n} de ${P.length} respondidas`;
+  $("#progreso").style.width = (n/P.length*100)+"%";
+}
+$("#formPrueba").addEventListener("input",avance);
+$("#formPrueba").addEventListener("change",avance);
+
+/* ============ CALIFICAR ============ */
+function acierta(p,v){
+  if(p.tipo==="mc") return v===p.ok;
+  if(p.tipo==="sn") return v.every((x,j)=>x===p.filas[j][1]);
+  return null;
+}
+function textoResp(p,v){
+  if(p.tipo==="mc") return v ? `${v}) ${p.ops[v]}` : "";
+  if(p.tipo==="sn") return p.filas.map((f,j)=>`${f[0]}: ${v[j]==="si"?"Sí":"No"}`).join(" | ");
+  return v;
+}
+
+/* ============ ENVÍO (compatible con GitHub Pages / CORS) ============ */
+// Se envía como text/plain: es una "solicitud simple", el navegador no hace preflight (OPTIONS)
+// y Apps Script la recibe sin problema. Si la lectura de la respuesta falla, se reintenta con no-cors;
+// el script ignora duplicados usando el campo "id".
+async function enviar(payload){
+  const body = JSON.stringify(payload);
+  const cab = {"Content-Type":"text/plain;charset=utf-8"};
+  try{
+    const r = await fetch(ENDPOINT,{method:"POST",headers:cab,body,redirect:"follow"});
+    const j = await r.json();
+    if(j && j.ok) return {ok:true};
+    return {ok:false, msg:(j&&j.error)||"El servidor rechazó el envío."};
+  }catch(_){
+    try{ await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:cab,body}); return {ok:true,opaco:true}; }
+    catch(e2){ return {ok:false,msg:"No hay conexión. Revisa tu internet e inténtalo de nuevo."}; }
+  }
+}
+
+$("#btnEnviar").addEventListener("click", async ()=>{
+  const r = leer();
+  const falta = P.find(p=>!completa(p,r[p.id]));
+  if(falta){
+    $("#ePrueba").textContent = falta.tipo==="abierta" ? "Escribe tu ejemplo en la pregunta 7 (mínimo una frase)." : `Falta responder la pregunta ${P.indexOf(falta)+1}.`;
+    document.getElementById("b_"+falta.id).scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  $("#ePrueba").textContent="";
+  const res = P.map(p=>acierta(p,r[p.id]));
+  const aciertos = res.filter(x=>x===true).length;
+  const payload = {id:estado.id, nombre:estado.nombre, matricula:estado.matricula,
+    respuestas:P.map(p=>textoResp(p,r[p.id])), aciertos, total:6,
+    segundos:Math.round((Date.now()-estado.inicio)/1000)};
+  const btn=$("#btnEnviar"); btn.disabled=true; btn.textContent="Enviando…";
+  let out;
+  if(ENDPOINT.startsWith("PEGA_AQUI")){ out={ok:true,demo:true}; console.warn("ENDPOINT sin configurar: no se envió nada."); }
+  else out = await enviar(payload);
+  if(!out.ok){
+    btn.disabled=false; btn.textContent="Reintentar envío";
+    const a=$("#aviso"); a.style.display="block"; a.textContent=out.msg+" Tus respuestas siguen aquí; no se perdieron."; return;
+  }
+  mostrar(r,res,aciertos,out.demo);
+});
+
+function mostrar(r,res,aciertos,demo){
+  $("#prueba").hidden=true; $("#resultado").style.display="block";
+  $("#rNombre").textContent=estado.nombre.split(" ")[0]; $("#rAciertos").textContent=aciertos;
+  $("#revision").innerHTML = P.map((p,i)=>{
+    if(p.tipo==="abierta") return `<div class="preg"><h3><em>${i+1}</em><span>${p.t}</span></h3><div class="rev ok">Tu respuesta: ${r[p.id].replace(/</g,"&lt;")}</div></div>`;
+    return `<div class="preg"><h3><em>${i+1}</em><span>${p.t}</span></h3><div class="rev ${res[i]?"ok":"mal"}"><b>${res[i]?"Correcto.":"Para repasar."}</b> ${p.why}</div></div>`;
+  }).join("") + (demo?`<div class="aviso" style="display:block">Modo de prueba: aún no se configura la URL de Apps Script, por eso no se guardó nada en la hoja.</div>`:"");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
